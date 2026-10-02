@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кафе СветЛей — лёгкие перекусы и ланчи</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ШАПКА -->
+    <header>
+        <div class="logo">☀️ СветЛей</div>
+        <nav>
+            <a href="#menu">Меню</a>
+            <a href="#about">О нас</a>
+            <a href="#contact">Контакты</a>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Лёгкие перекусы и ланчи</h1>
+        <p>Свежие продукты, уютная атмосфера и солнечное настроение каждый день</p>
+        <a href="#menu" class="btn">Смотреть меню</a>
+    </section>
+
+    <!-- МЕНЮ -->
+    <section id="menu" class="menu">
+        <h2>Наше меню</h2>
+        <p class="subtitle">Ланчи подаются с 12:00 до 16:00</p>
+
+        <h3 class="menu-category">🍽 Ланчи</h3>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <h4>Ланч «Солнечный»</h4>
+                <p>Куриный суп, салат из свежих овощей, куриная грудка на гриле, хлеб</p>
+                <span class="price">390 ₽</span>
+            </div>
+            <div class="menu-item">
+                <h4>Ланч «Лёгкий»</h4>
+                <p>Овощной суп-пюре, салат с авокадо, паровая рыба, рис</p>
+                <span class="price">420 ₽</span>
+            </div>
+            <div class="menu-item">
+                <h4>Ланч «Вегетарианский»</h4>
+                <p>Крем-суп из тыквы, боул с киноа, хумус, овощи гриль</p>
+                <span class="price">370 ₽</span>
+            </div>
+        </div>
+
+        <h3 class="menu-category">🥗 Перекусы</h3>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <h4>Сэндвич с лососем</h4>
+                <p>Цельнозерновой хлеб, сливочный сыр, лосось, руккола</p>
+                <span class="price">250 ₽</span>
+            </div>
+            <div class="menu-item">
+                <h4>Салат «СветЛей»</h4>
+                <p>Микс салата, черри, моцарелла, орехи, медово-горчичный соус</p>
+                <span class="price">280 ₽</span>
+            </div>
+            <div class="menu-item">
+                <h4>Круассан с курицей</h4>
+                <p>Слоёный круассан, курица, сыр, свежие овощи</p>
+                <span class="price">190 ₽</span>
+            </div>
+            <div class="menu-item">
+                <h4>Смузи-боул</h4>
+                <p>Йогурт, ягоды, гранола, банан, мёд</p>
+                <span class="price">220 ₽</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- О НАС -->
+    <section id="about" class="about">
+        <h2>О кафе</h2>
+        <p>«СветЛей» — это место, где можно быстро и вкусно перекусить в течение дня. Мы готовим из свежих продуктов,
+            подаём лёгкие ланчи и всегда рады видеть вас в гости.</p>
+        <p>Наше кафе идеально подходит для обеда в перерыве, встречи с друзьями или спокойного утра с чашкой кофе.</p>
+    </section>
+
+    <!-- КОНТАКТЫ -->
+    <section id="contact" class="contact">
+        <h2>Контакты</h2>
+        <div class="contact-info">
+            <p><strong>Адрес:</strong> г. Москва, ул. Солнечная, 12</p>
+            <p><strong>Часы работы:</strong> Пн–Вс, 9:00 – 21:00</p>
+            <p><strong>Телефон:</strong> +7 (999) 123-45-67</p>
+            <p><strong>Email:</strong> hello@svetley.ru</p>
+        </div>
+
+        <h3>Забронировать столик</h3>
+        <form id="bookingForm">
+            <input type="text" id="name" placeholder="Ваше имя" required>
+            <input type="tel" id="phone" placeholder="Телефон" required>
+            <input type="date" id="date" required>
+            <button type="submit">Забронировать</button>
+        </form>
+        <p id="formMessage"></p>
+    </section>
+
+    <!-- ПОДВАЛ -->
+    <footer>
+        <p>© 2026 Кафе «СветЛей». Свежесть в каждом кусочке.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
