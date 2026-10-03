@@ -4,57 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Кафе Свет и Лей — ароматный кофе, лёгкие завтраки и ланчи в уютной атмосфере.">
-    <title>Кафе Свет и Лей | Кофе, завтраки, ланчи</title>
-
+    <title>Кафе Свет и Лей | Предзаказ и доставка</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap"
         rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- ШАПКА -->
     <header class="header">
         <div class="container header__inner">
             <a href="#" class="logo">
-                <span class="logo__light">Свет</span>
-                <span class="logo__divider">и</span>
-                <span class="logo__water">Лей</span>
+                <span class="logo__light">Свет</span><span class="logo__divider"> и </span><span
+                    class="logo__water">Лей</span>
             </a>
-
-            <nav class="nav" aria-label="Основная навигация">
+            <nav class="nav">
                 <a href="#menu" class="nav__link">Меню</a>
                 <a href="#about" class="nav__link">О нас</a>
-                <a href="#visit" class="nav__link">Забронировать</a>
                 <a href="#contacts" class="nav__link">Контакты</a>
             </nav>
-
-            <button class="mobile-menu-btn" aria-label="Открыть меню">
-                <span></span><span></span><span></span>
+            <button class="cart-btn" id="cartBtn" aria-label="Открыть корзину">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+                <span class="cart-badge" id="cartCount">0</span>
             </button>
         </div>
     </header>
 
-    <!-- HERO -->
     <section class="hero">
         <div class="hero__glow hero__glow--warm"></div>
         <div class="hero__glow hero__glow--cool"></div>
-
         <div class="container hero__content">
             <p class="hero__greeting">Доброе утро ☕</p>
             <h1 class="hero__title">Свет <span class="italic">и</span> Лей</h1>
-            <p class="hero__subtitle">Ароматный кофе, тёплые завтраки и лёгкие ланчи в месте, где время течёт мягче.</p>
-            <div class="hero__actions">
-                <a href="#menu" class="btn btn--soft">Посмотреть меню</a>
-                <a href="#visit" class="btn btn--ghost">Забронировать столик</a>
-            </div>
+            <p class="hero__subtitle">Свежие завтраки, сытные ланчи и ароматный кофе. Закажите заранее, чтобы мы
+                приготовили всё к вашему приходу или доставили горячим.</p>
+            <a href="#menu" class="btn btn--soft">Перейти к меню</a>
         </div>
-
         <div class="wave-divider">
             <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
                 <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,100 L0,100 Z" fill="#FBF8F3" />
@@ -62,126 +54,103 @@
         </div>
     </section>
 
-    <!-- МЕНЮ -->
     <section id="menu" class="section menu-section">
         <div class="container">
             <div class="section__header">
                 <h2 class="section__title">Наше меню</h2>
-                <p class="section__subtitle">Свежие продукты, авторские рецепты и кофе собственной обжарки</p>
+                <p class="section__subtitle">Выберите категорию и добавьте блюда в корзину</p>
             </div>
-
-            <!-- Переключатель категорий -->
             <div class="menu-tabs" role="tablist">
-                <button class="menu-tab active" data-category="breakfast" role="tab">Завтраки</button>
-                <button class="menu-tab" data-category="lunch" role="tab">Ланчи</button>
-                <button class="menu-tab" data-category="coffee" role="tab">Кофе и чай</button>
-                <button class="menu-tab" data-category="desserts" role="tab">Десерты</button>
+                <button class="menu-tab active" data-category="breakfast">Завтраки</button>
+                <button class="menu-tab" data-category="lunch">Ланчи</button>
+                <button class="menu-tab" data-category="coffee">Кофе и десерты</button>
             </div>
-
-            <!-- Сетка меню -->
-            <div class="menu-grid" id="menuGrid">
-                <!-- Заполняется через JS -->
-            </div>
+            <div class="menu-grid" id="menuGrid"></div>
         </div>
     </section>
 
-    <!-- О НАС -->
     <section id="about" class="section about">
         <div class="container about__inner">
             <div class="about__visual">
                 <div class="about__circle about__circle--warm"></div>
                 <div class="about__circle about__circle--cool"></div>
-                <div class="about__emoji">☕</div>
+                <div class="about__emoji">🥐</div>
             </div>
             <div class="about__text">
-                <h2 class="section__title section__title--left">Наша история</h2>
-                <p>«Свет и Лей» — это уютное кафе, где утро начинается с аромата свежесваренного кофе, а день — с
-                    лёгких, но сытных блюд.</p>
-                <p>Мы верим, что хороший завтрак задаёт настроение всему дню, поэтому готовим из сезонных продуктов,
-                    выпекаем круассаны по утрам и обжариваем кофе сами.</p>
-                <p class="about__signature">Приходите — у нас тепло.</p>
+                <h2 class="section__title section__title--left">Готовим с душой</h2>
+                <p>Мы используем только фермерские продукты, печём круассаны каждое утро и обжариваем кофе специально
+                    для вас.</p>
+                <p>Сделайте предзаказ через сайт, и ваш столик или доставка будут готовы точно в срок.</p>
             </div>
         </div>
     </section>
 
-    <!-- БРОНИРОВАНИЕ -->
-    <section id="visit" class="section visit">
-        <div class="container">
-            <div class="section__header">
-                <h2 class="section__title">Забронировать столик</h2>
-                <p class="section__subtitle">Мы зарезервируем для вас лучшее место у окна</p>
-            </div>
-
-            <form class="booking-form" id="bookingForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="b-name">Ваше имя</label>
-                        <input type="text" id="b-name" required placeholder="Анна">
-                    </div>
-                    <div class="form-group">
-                        <label for="b-phone">Телефон</label>
-                        <input type="tel" id="b-phone" required placeholder="+7 (___) ___-__-__">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="b-date">Дата</label>
-                        <input type="date" id="b-date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="b-time">Время</label>
-                        <input type="time" id="b-time" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="b-guests">Гостей</label>
-                        <select id="b-guests">
-                            <option>1 человек</option>
-                            <option selected>2 человека</option>
-                            <option>3 человека</option>
-                            <option>4 человека</option>
-                            <option>5+ человек</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn--soft btn--full">Забронировать</button>
-                <p class="form-message" id="bookingMessage"></p>
-            </form>
-        </div>
-    </section>
-
-    <!-- КОНТАКТЫ -->
-    <section id="contacts" class="section contacts">
-        <div class="container">
-            <h2 class="section__title">Как нас найти</h2>
-            <div class="contacts__grid">
-                <div class="contact-card">
-                    <div class="contact-card__icon">📍</div>
-                    <h3>Адрес</h3>
-                    <p>г. Москва, наб. Светлая, 12</p>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-card__icon">🕐</div>
-                    <h3>Часы работы</h3>
-                    <p>Пн–Пт: 8:00 – 22:00</p>
-                    <p>Сб–Вс: 9:00 – 23:00</p>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-card__icon">☎️</div>
-                    <h3>Связь</h3>
-                    <p>+7 (999) 123-45-67</p>
-                    <p>hello@svetilei.cafe</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ФУТЕР -->
     <footer class="footer">
         <div class="container footer__inner">
             <p class="footer__logo">Свет <span class="italic">и</span> Лей</p>
-            <p class="footer__text">Тёплые утра и мягкие дни с 2024 года</p>
+            <p class="footer__text">Тёплые утра и мягкие дни</p>
         </div>
     </footer>
+
+    <!-- КОРЗИНА (DRAWER) -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer__header">
+            <h3>Ваш заказ</h3>
+            <button class="cart-close" id="cartClose">&times;</button>
+        </div>
+        <div class="cart-drawer__items" id="cartItems">
+            <p class="cart-empty">Корзина пуста</p>
+        </div>
+        <div class="cart-drawer__footer">
+            <div class="cart-total">
+                <span>Итого:</span>
+                <span id="cartTotal">0 ₽</span>
+            </div>
+            <button class="btn btn--soft btn--full" id="checkoutBtn" disabled>Оформить заказ</button>
+        </div>
+    </aside>
+
+    <!-- МОДАЛЬНОЕ ОКНО ОФОРМЛЕНИЯ -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div id="checkoutFormContainer">
+                <h2 class="section__title" style="font-size: 1.8rem; margin-bottom: 24px;">Оформление заказа</h2>
+                <form id="orderForm" class="booking-form"
+                    style="box-shadow: none; padding: 0; background: transparent; border: none;">
+                    <div class="form-group">
+                        <label>Ваше имя</label>
+                        <input type="text" name="name" required placeholder="Анна">
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" name="phone" required placeholder="+7 (999) 123-45-67">
+                    </div>
+                    <div class="form-group">
+                        <label>Как получить заказ?</label>
+                        <select name="orderType" required>
+                            <option value="Самовывоз">Самовывоз из кафе</option>
+                            <option value="Доставка">Доставка (в пределах 5 км)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Комментарий (время, адрес, аллергии)</label>
+                        <textarea name="comment" rows="3" placeholder="Например: будьте готовы к 10:00"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn--soft btn--full" id="submitOrderBtn">Подтвердить заказ</button>
+                </form>
+            </div>
+            <div id="orderSuccess" class="hidden" style="text-align: center; padding: 20px 0;">
+                <div style="font-size: 3rem; margin-bottom: 16px;">✨</div>
+                <h2 style="font-family: var(--font-heading); color: var(--text); margin-bottom: 12px;">Спасибо за заказ!
+                </h2>
+                <p style="color: var(--text-light); margin-bottom: 24px;">Мы уже начали его готовить. Скоро свяжемся с
+                    вами для подтверждения.</p>
+                <button class="btn btn--soft" id="closeSuccessBtn">Отлично!</button>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

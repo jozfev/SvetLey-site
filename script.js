@@ -1,30 +1,31 @@
-/**
- * Основной скрипт сайта "Свет и Лей"
- * Управляет каталогом, корзиной, модальными окнами и анимациями.
- */
-
 document.addEventListener("DOMContentLoaded", () => {
-    // ==========================================
-    // 1. ДАННЫЕ И СОСТОЯНИЕ
-    // ==========================================
+    // ⚠️ ВСТАВЬТЕ СЮДА URL ВАШЕГО ВЕБ-ПРИЛОЖЕНИЯ GOOGLE APPS SCRIPT
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/ВАШ_ДЛИННЫЙ_ID/exec';
 
-    // База данных товаров (имитация)
-    const products = [
-        { id: 1, name: "Светильник 'Утренний луч'", price: 4500, icon: "💡", desc: "Тёплый янтарный свет для уютных вечеров." },
-        { id: 2, name: "Ваза 'Горный поток'", price: 3200, icon: "🏺", desc: "Прозрачное стекло с бирюзовым переливом." },
-        { id: 3, name: "Набор свечей 'Сияние'", price: 1800, icon: "🕯️", desc: "Аромат ванили и морской соли." },
-        { id: 4, name: "Плед 'Облако'", price: 5900, icon: "☁️", desc: "Невесомый и мягкий, как утренняя дымка." },
-        { id: 5, name: "Чаша 'Океан'", price: 2100, icon: "🥣", desc: "Керамика ручной работы с глазурью цвета воды." },
-        { id: 6, name: "Диффузор 'Бриз'", price: 2800, icon: "🌬️", desc: "Свежесть морского побережья в вашем доме." }
-    ];
+    // 1. ДАННЫЕ МЕНЮ (3 категории)
+    const menuData = {
+        breakfast: [
+            { id: 1, name: "Авокадо-тост с яйцом пашот", price: 420, desc: "Хрустящий тост, спелый авокадо, яйцо пашот, микрозелень" },
+            { id: 2, name: "Сырники со сметаной и ягодами", price: 360, desc: "Нежные сырники из фермерского творога, свежая мята" },
+            { id: 3, name: "Овсяная каша на миндальном молоке", price: 320, desc: "Долгой варки, с бананом, орехами и кленовым сиропом" }
+        ],
+        lunch: [
+            { id: 4, name: "Боул с лососем и киноа", price: 540, desc: "Киноа, лосось су-вид, авокадо, черри, соус тахини" },
+            { id: 5, name: "Крем-суп из тыквы с гренками", price: 340, desc: "Тыква, имбирь, кокосовое молоко, тыквенные семечки" },
+            { id: 6, name: "Паста с песто и курицей", price: 460, desc: "Домашняя паста, базиликовое песто, вяленые томаты" }
+        ],
+        coffee: [
+            { id: 7, name: "Капучино", price: 240, desc: "Двойная порция эспрессо, шелковистое молоко" },
+            { id: 8, name: "Раф лавандовый", price: 320, desc: "Сливки, эспрессо, натуральный лавандовый сироп" },
+            { id: 9, name: "Миндальный круассан", price: 260, desc: "Слоёное тесто, миндальный крем, лепестки миндаля" }
+        ]
+    };
 
-    // Состояние корзины (загружаем из localStorage или создаём пустой массив)
     let cart = JSON.parse(localStorage.getItem("svetilei_cart")) || [];
 
-    // ==========================================
     // 2. DOM ЭЛЕМЕНТЫ
-    // ==========================================
-    const catalogGrid = document.getElementById("catalogGrid");
+    const menuGrid = document.getElementById("menuGrid");
+    const menuTabs = document.querySelectorAll(".menu-tab");
     const cartBtn = document.getElementById("cartBtn");
     const cartCount = document.getElementById("cartCount");
     const cartDrawer = document.getElementById("cartDrawer");
@@ -33,62 +34,59 @@ document.addEventListener("DOMContentLoaded", () => {
     const cartItemsContainer = document.getElementById("cartItems");
     const cartTotalEl = document.getElementById("cartTotal");
     const checkoutBtn = document.getElementById("checkoutBtn");
-
     const checkoutModal = document.getElementById("checkoutModal");
     const modalClose = document.getElementById("modalClose");
     const orderForm = document.getElementById("orderForm");
     const checkoutFormContainer = document.getElementById("checkoutFormContainer");
     const orderSuccess = document.getElementById("orderSuccess");
-    const orderNumberEl = document.getElementById("orderNumber");
     const closeSuccessBtn = document.getElementById("closeSuccessBtn");
+    const submitOrderBtn = document.getElementById("submitOrderBtn");
 
-    // ==========================================
-    // 3. РЕНДЕРИНГ КАТАЛОГА
-    // ==========================================
-    function renderCatalog() {
-        catalogGrid.innerHTML = products.map(product => `
-            <article class="product-card">
-                <div class="product-card__img">${product.icon}</div>
-                <div class="product-card__body">
-                    <h3 class="product-card__title">${product.name}</h3>
-                    <p class="product-card__desc">${product.desc}</p>
-                    <div class="product-card__footer">
-                        <span class="product-card__price">${product.price} ₽</span>
-                        <button class="btn btn--add add-to-cart-btn" data-id="${product.id}">
-                            В корзину
-                        </button>
+    // 3. РЕНДЕР МЕНЮ
+    function renderMenu(category) {
+        menuGrid.style.opacity = "0";
+        setTimeout(() => {
+            menuGrid.innerHTML = menuData[category].map(item => `
+                <article class="menu-item">
+                    <div class="menu-item__head">
+                        <h3 class="menu-item__name">${item.name}</h3>
+                        <span class="menu-item__price">${item.price} ₽</span>
                     </div>
-                </div>
-            </article>
-        `).join("");
+                    <p class="menu-item__desc">${item.desc}</p>
+                    <button class="btn btn--add add-to-cart-btn" data-id="${item.id}">В корзину</button>
+                </article>
+            `).join("");
+            menuGrid.style.opacity = "1";
+            menuGrid.style.transition = "opacity 0.3s ease";
+        }, 150);
     }
 
-    // ==========================================
-    // 4. ЛОГИКА КОРЗИНЫ
-    // ==========================================
+    menuTabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            menuTabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+            renderMenu(tab.dataset.category);
+        });
+    });
 
-    // Сохранение в localStorage
+    // 4. ЛОГИКА КОРЗИНЫ
     function saveCart() {
         localStorage.setItem("svetilei_cart", JSON.stringify(cart));
         updateCartUI();
     }
 
-    // Обновление интерфейса корзины
     function updateCartUI() {
-        // Обновляем бейдж
         const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
         cartCount.textContent = totalItems;
         cartCount.classList.toggle("active", totalItems > 0);
 
-        // Рендерим список товаров
         if (cart.length === 0) {
-            cartItemsContainer.innerHTML = '<p class="cart-empty">Ваша корзина пуста</p>';
+            cartItemsContainer.innerHTML = '<p class="cart-empty">Корзина пуста</p>';
             checkoutBtn.disabled = true;
         } else {
             checkoutBtn.disabled = false;
             cartItemsContainer.innerHTML = cart.map(item => `
-                <div class="cart-item" data-id="${item.id}">
-                    <div class="cart-item__img">${item.icon}</div>
+                <div class="cart-item">
                     <div class="cart-item__details">
                         <div class="cart-item__title">${item.name}</div>
                         <div class="cart-item__price">${item.price} ₽</div>
@@ -103,41 +101,16 @@ document.addEventListener("DOMContentLoaded", () => {
             `).join("");
         }
 
-        // Считаем итог
         const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
         cartTotalEl.textContent = `${total} ₽`;
     }
 
-    // Добавление в корзину с анимацией
-    function addToCart(productId) {
-        const product = products.find(p => p.id === productId);
-        const existingItem = cart.find(item => item.id === productId);
-
-        if (existingItem) {
-            existingItem.qty++;
-        } else {
-            cart.push({ ...product, qty: 1 });
-        }
-
-        saveCart();
-        animateFlyToCart(productId);
-
-        // Открываем корзину автоматически при первом добавлении
-        if (cart.length === 1 && cart[0].qty === 1) {
-            openCart();
-        }
-    }
-
-    // Глобальные функции для onclick в HTML-строках
     window.changeQty = function (id, change) {
         const item = cart.find(i => i.id === id);
         if (item) {
             item.qty += change;
-            if (item.qty <= 0) {
-                removeFromCart(id);
-            } else {
-                saveCart();
-            }
+            if (item.qty <= 0) removeFromCart(id);
+            else saveCart();
         }
     };
 
@@ -146,127 +119,79 @@ document.addEventListener("DOMContentLoaded", () => {
         saveCart();
     };
 
-    // Анимация "полёта" товара в корзину
-    function animateFlyToCart(productId) {
-        const btn = document.querySelector(`.add-to-cart-btn[data-id="${productId}"]`);
-        const cartIcon = cartBtn.getBoundingClientRect();
-        const btnRect = btn.getBoundingClientRect();
+    function addToCart(productId) {
+        const product = Object.values(menuData).flat().find(p => p.id === productId);
+        const existingItem = cart.find(item => item.id === productId);
+        if (existingItem) existingItem.qty++;
+        else cart.push({ ...product, qty: 1 });
+        saveCart();
 
-        // Создаём клон для анимации
-        const flyer = document.createElement("div");
-        flyer.classList.add("flying-item");
-        flyer.style.left = `${btnRect.left + btnRect.width / 2}px`;
-        flyer.style.top = `${btnRect.top + btnRect.height / 2}px`;
-        document.body.appendChild(flyer);
-
-        // Запускаем анимацию
-        requestAnimationFrame(() => {
-            flyer.style.left = `${cartIcon.left + 10}px`;
-            flyer.style.top = `${cartIcon.top + 10}px`;
-            flyer.style.transform = "scale(0.2)";
-            flyer.style.opacity = "0";
-        });
-
-        // Удаляем клон после анимации
-        setTimeout(() => {
-            flyer.remove();
-            // Визуальный фидбек на иконке корзины
-            cartBtn.style.transform = "scale(1.2)";
-            setTimeout(() => { cartBtn.style.transform = "scale(1)"; }, 200);
-        }, 800);
+        // Анимация иконки корзины
+        cartBtn.style.transform = "scale(1.2)";
+        setTimeout(() => { cartBtn.style.transform = "scale(1)"; }, 200);
     }
 
-    // ==========================================
-    // 5. УПРАВЛЕНИЕ UI (Открытие/Закрытие)
-    // ==========================================
-    function openCart() {
-        cartDrawer.classList.add("active");
-        cartOverlay.classList.add("active");
-        document.body.style.overflow = "hidden"; // Блокируем скролл фона
-    }
+    // 5. УПРАВЛЕНИЕ UI
+    function openCart() { cartDrawer.classList.add("active"); cartOverlay.classList.add("active"); document.body.style.overflow = "hidden"; }
+    function closeCart() { cartDrawer.classList.remove("active"); cartOverlay.classList.remove("active"); document.body.style.overflow = ""; }
+    function openModal() { closeCart(); checkoutModal.classList.add("active"); checkoutFormContainer.classList.remove("hidden"); orderSuccess.classList.add("hidden"); }
+    function closeModal() { checkoutModal.classList.remove("active"); document.body.style.overflow = ""; }
 
-    function closeCart() {
-        cartDrawer.classList.remove("active");
-        cartOverlay.classList.remove("active");
-        document.body.style.overflow = "";
-    }
-
-    function openModal() {
-        closeCart(); // Закрываем корзину при открытии оформления
-        checkoutModal.classList.add("active");
-        checkoutFormContainer.classList.remove("hidden");
-        orderSuccess.classList.add("hidden");
-        document.body.style.overflow = "hidden";
-    }
-
-    function closeModal() {
-        checkoutModal.classList.remove("active");
-        document.body.style.overflow = "";
-    }
-
-    // ==========================================
     // 6. ОБРАБОТЧИКИ СОБЫТИЙ
-    // ==========================================
-
-    // Делегирование событий для кнопок "В корзину"
-    catalogGrid.addEventListener("click", (e) => {
+    menuGrid.addEventListener("click", (e) => {
         if (e.target.classList.contains("add-to-cart-btn")) {
-            const id = parseInt(e.target.dataset.id);
-            addToCart(id);
+            addToCart(parseInt(e.target.dataset.id));
         }
     });
 
     cartBtn.addEventListener("click", openCart);
     cartClose.addEventListener("click", closeCart);
     cartOverlay.addEventListener("click", closeCart);
-
     checkoutBtn.addEventListener("click", openModal);
     modalClose.addEventListener("click", closeModal);
-    closeSuccessBtn.addEventListener("click", () => {
-        closeModal();
-        // Скролл к началу страницы для лучшего UX
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+    closeSuccessBtn.addEventListener("click", () => { closeModal(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+    checkoutModal.addEventListener("click", (e) => { if (e.target === checkoutModal) closeModal(); });
 
-    // Закрытие модалки по клику вне её
-    checkoutModal.addEventListener("click", (e) => {
-        if (e.target === checkoutModal) closeModal();
-    });
-
-    // Обработка отправки формы заказа
-    orderForm.addEventListener("submit", (e) => {
+    // 7. ОТПРАВКА ЗАКАЗА В GOOGLE SHEETS
+    orderForm.addEventListener("submit", async (e) => {
         e.preventDefault();
+        const formData = new FormData(orderForm);
+        const orderData = {
+            name: formData.get("name"),
+            phone: formData.get("phone"),
+            orderType: formData.get("orderType"),
+            comment: formData.get("comment"),
+            items: cart,
+            total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0)
+        };
 
-        // Имитация отправки данных на сервер
-        const orderId = Math.floor(100000 + Math.random() * 900000);
-        orderNumberEl.textContent = `#${orderId}`;
+        submitOrderBtn.disabled = true;
+        submitOrderBtn.textContent = "Отправляем...";
 
-        // Очищаем корзину
-        cart = [];
-        saveCart();
-        orderForm.reset();
+        try {
+            // mode: 'no-cors' и text/plain критически важны для Google Apps Script
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(orderData)
+            });
 
-        // Показываем экран успеха
-        checkoutFormContainer.classList.add("hidden");
-        orderSuccess.classList.remove("hidden");
+            cart = [];
+            saveCart();
+            orderForm.reset();
+            checkoutFormContainer.classList.add("hidden");
+            orderSuccess.classList.remove("hidden");
+        } catch (error) {
+            console.error('Ошибка:', error);
+            alert("Не удалось отправить заказ. Пожалуйста, позвоните нам.");
+        } finally {
+            submitOrderBtn.disabled = false;
+            submitOrderBtn.textContent = "Подтвердить заказ";
+        }
     });
 
-    // Плавная прокрутка для якорных ссылок (дополнительная страховка)
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute("href"));
-            if (target) {
-                target.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-        });
-    });
-
-    // ==========================================
-    // 7. ИНИЦИАЛИЗАЦИЯ
-    // ==========================================
-    renderCatalog();
+    // Инициализация
+    renderMenu("breakfast");
     updateCartUI();
-
-    console.log("✨ Сайт «Свет и Лей» успешно загружен. Гармония установлена.");
 });
