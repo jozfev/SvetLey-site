@@ -4,112 +4,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кафе СветЛей — лёгкие перекусы и ланчи</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Кафе Свет и Лей — ароматный кофе, лёгкие завтраки и ланчи в уютной атмосфере.">
+    <title>Кафе Свет и Лей | Кофе, завтраки, ланчи</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans:wght@400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap"
         rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <!-- ШАПКА -->
-    <header>
-        <div class="logo">☀️ СветЛей</div>
-        <nav>
-            <a href="#menu">Меню</a>
-            <a href="#about">О нас</a>
-            <a href="#contact">Контакты</a>
-        </nav>
+    <header class="header">
+        <div class="container header__inner">
+            <a href="#" class="logo">
+                <span class="logo__light">Свет</span>
+                <span class="logo__divider">и</span>
+                <span class="logo__water">Лей</span>
+            </a>
+
+            <nav class="nav" aria-label="Основная навигация">
+                <a href="#menu" class="nav__link">Меню</a>
+                <a href="#about" class="nav__link">О нас</a>
+                <a href="#visit" class="nav__link">Забронировать</a>
+                <a href="#contacts" class="nav__link">Контакты</a>
+            </nav>
+
+            <button class="mobile-menu-btn" aria-label="Открыть меню">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
     </header>
 
     <!-- HERO -->
     <section class="hero">
-        <h1>Лёгкие перекусы и ланчи</h1>
-        <p>Свежие продукты, уютная атмосфера и солнечное настроение каждый день</p>
-        <a href="#menu" class="btn">Смотреть меню</a>
-    </section>
+        <div class="hero__glow hero__glow--warm"></div>
+        <div class="hero__glow hero__glow--cool"></div>
 
-    <!-- МЕНЮ -->
-    <section id="menu" class="menu">
-        <h2>Наше меню</h2>
-        <p class="subtitle">Ланчи подаются с 12:00 до 16:00</p>
-
-        <h3 class="menu-category">🍽 Ланчи</h3>
-        <div class="menu-grid">
-            <div class="menu-item">
-                <h4>Ланч «Солнечный»</h4>
-                <p>Куриный суп, салат из свежих овощей, куриная грудка на гриле, хлеб</p>
-                <span class="price">390 ₽</span>
-            </div>
-            <div class="menu-item">
-                <h4>Ланч «Лёгкий»</h4>
-                <p>Овощной суп-пюре, салат с авокадо, паровая рыба, рис</p>
-                <span class="price">420 ₽</span>
-            </div>
-            <div class="menu-item">
-                <h4>Ланч «Вегетарианский»</h4>
-                <p>Крем-суп из тыквы, боул с киноа, хумус, овощи гриль</p>
-                <span class="price">370 ₽</span>
+        <div class="container hero__content">
+            <p class="hero__greeting">Доброе утро ☕</p>
+            <h1 class="hero__title">Свет <span class="italic">и</span> Лей</h1>
+            <p class="hero__subtitle">Ароматный кофе, тёплые завтраки и лёгкие ланчи в месте, где время течёт мягче.</p>
+            <div class="hero__actions">
+                <a href="#menu" class="btn btn--soft">Посмотреть меню</a>
+                <a href="#visit" class="btn btn--ghost">Забронировать столик</a>
             </div>
         </div>
 
-        <h3 class="menu-category">🥗 Перекусы</h3>
-        <div class="menu-grid">
-            <div class="menu-item">
-                <h4>Сэндвич с лососем</h4>
-                <p>Цельнозерновой хлеб, сливочный сыр, лосось, руккола</p>
-                <span class="price">250 ₽</span>
+        <div class="wave-divider">
+            <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,100 L0,100 Z" fill="#FBF8F3" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- МЕНЮ -->
+    <section id="menu" class="section menu-section">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">Наше меню</h2>
+                <p class="section__subtitle">Свежие продукты, авторские рецепты и кофе собственной обжарки</p>
             </div>
-            <div class="menu-item">
-                <h4>Салат «СветЛей»</h4>
-                <p>Микс салата, черри, моцарелла, орехи, медово-горчичный соус</p>
-                <span class="price">280 ₽</span>
+
+            <!-- Переключатель категорий -->
+            <div class="menu-tabs" role="tablist">
+                <button class="menu-tab active" data-category="breakfast" role="tab">Завтраки</button>
+                <button class="menu-tab" data-category="lunch" role="tab">Ланчи</button>
+                <button class="menu-tab" data-category="coffee" role="tab">Кофе и чай</button>
+                <button class="menu-tab" data-category="desserts" role="tab">Десерты</button>
             </div>
-            <div class="menu-item">
-                <h4>Круассан с курицей</h4>
-                <p>Слоёный круассан, курица, сыр, свежие овощи</p>
-                <span class="price">190 ₽</span>
-            </div>
-            <div class="menu-item">
-                <h4>Смузи-боул</h4>
-                <p>Йогурт, ягоды, гранола, банан, мёд</p>
-                <span class="price">220 ₽</span>
+
+            <!-- Сетка меню -->
+            <div class="menu-grid" id="menuGrid">
+                <!-- Заполняется через JS -->
             </div>
         </div>
     </section>
 
     <!-- О НАС -->
-    <section id="about" class="about">
-        <h2>О кафе</h2>
-        <p>«СветЛей» — это место, где можно быстро и вкусно перекусить в течение дня. Мы готовим из свежих продуктов,
-            подаём лёгкие ланчи и всегда рады видеть вас в гости.</p>
-        <p>Наше кафе идеально подходит для обеда в перерыве, встречи с друзьями или спокойного утра с чашкой кофе.</p>
+    <section id="about" class="section about">
+        <div class="container about__inner">
+            <div class="about__visual">
+                <div class="about__circle about__circle--warm"></div>
+                <div class="about__circle about__circle--cool"></div>
+                <div class="about__emoji">☕</div>
+            </div>
+            <div class="about__text">
+                <h2 class="section__title section__title--left">Наша история</h2>
+                <p>«Свет и Лей» — это уютное кафе, где утро начинается с аромата свежесваренного кофе, а день — с
+                    лёгких, но сытных блюд.</p>
+                <p>Мы верим, что хороший завтрак задаёт настроение всему дню, поэтому готовим из сезонных продуктов,
+                    выпекаем круассаны по утрам и обжариваем кофе сами.</p>
+                <p class="about__signature">Приходите — у нас тепло.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- БРОНИРОВАНИЕ -->
+    <section id="visit" class="section visit">
+        <div class="container">
+            <div class="section__header">
+                <h2 class="section__title">Забронировать столик</h2>
+                <p class="section__subtitle">Мы зарезервируем для вас лучшее место у окна</p>
+            </div>
+
+            <form class="booking-form" id="bookingForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="b-name">Ваше имя</label>
+                        <input type="text" id="b-name" required placeholder="Анна">
+                    </div>
+                    <div class="form-group">
+                        <label for="b-phone">Телефон</label>
+                        <input type="tel" id="b-phone" required placeholder="+7 (___) ___-__-__">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="b-date">Дата</label>
+                        <input type="date" id="b-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="b-time">Время</label>
+                        <input type="time" id="b-time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="b-guests">Гостей</label>
+                        <select id="b-guests">
+                            <option>1 человек</option>
+                            <option selected>2 человека</option>
+                            <option>3 человека</option>
+                            <option>4 человека</option>
+                            <option>5+ человек</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn--soft btn--full">Забронировать</button>
+                <p class="form-message" id="bookingMessage"></p>
+            </form>
+        </div>
     </section>
 
     <!-- КОНТАКТЫ -->
-    <section id="contact" class="contact">
-        <h2>Контакты</h2>
-        <div class="contact-info">
-            <p><strong>Адрес:</strong> г. Москва, ул. Солнечная, 12</p>
-            <p><strong>Часы работы:</strong> Пн–Вс, 9:00 – 21:00</p>
-            <p><strong>Телефон:</strong> +7 (999) 123-45-67</p>
-            <p><strong>Email:</strong> hello@svetley.ru</p>
+    <section id="contacts" class="section contacts">
+        <div class="container">
+            <h2 class="section__title">Как нас найти</h2>
+            <div class="contacts__grid">
+                <div class="contact-card">
+                    <div class="contact-card__icon">📍</div>
+                    <h3>Адрес</h3>
+                    <p>г. Москва, наб. Светлая, 12</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-card__icon">🕐</div>
+                    <h3>Часы работы</h3>
+                    <p>Пн–Пт: 8:00 – 22:00</p>
+                    <p>Сб–Вс: 9:00 – 23:00</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-card__icon">☎️</div>
+                    <h3>Связь</h3>
+                    <p>+7 (999) 123-45-67</p>
+                    <p>hello@svetilei.cafe</p>
+                </div>
+            </div>
         </div>
-
-        <h3>Забронировать столик</h3>
-        <form id="bookingForm">
-            <input type="text" id="name" placeholder="Ваше имя" required>
-            <input type="tel" id="phone" placeholder="Телефон" required>
-            <input type="date" id="date" required>
-            <button type="submit">Забронировать</button>
-        </form>
-        <p id="formMessage"></p>
     </section>
 
-    <!-- ПОДВАЛ -->
-    <footer>
-        <p>© 2026 Кафе «СветЛей». Свежесть в каждом кусочке.</p>
+    <!-- ФУТЕР -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <p class="footer__logo">Свет <span class="italic">и</span> Лей</p>
+            <p class="footer__text">Тёплые утра и мягкие дни с 2024 года</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
