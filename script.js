@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // ⚠️ ВСТАВЬТЕ СЮДА URL ВАШЕГО ВЕБ-ПРИЛОЖЕНИЯ GOOGLE APPS SCRIPT
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/ВАШ_ДЛИННЫЙ_ID/exec';
+    // ⚠️ URL твоего веб-приложения Google Apps Script
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx1Dg_PUUK_asjOmiCD413LMOF1s2WR0qnIAyX-Q_Ja_awusaifSqW5dScSdiZ4YUPo/exec';
 
     // 1. ДАННЫЕ МЕНЮ (3 категории)
     const menuData = {
@@ -126,16 +126,34 @@ document.addEventListener("DOMContentLoaded", () => {
         else cart.push({ ...product, qty: 1 });
         saveCart();
 
-        // Анимация иконки корзины
         cartBtn.style.transform = "scale(1.2)";
         setTimeout(() => { cartBtn.style.transform = "scale(1)"; }, 200);
     }
 
     // 5. УПРАВЛЕНИЕ UI
-    function openCart() { cartDrawer.classList.add("active"); cartOverlay.classList.add("active"); document.body.style.overflow = "hidden"; }
-    function closeCart() { cartDrawer.classList.remove("active"); cartOverlay.classList.remove("active"); document.body.style.overflow = ""; }
-    function openModal() { closeCart(); checkoutModal.classList.add("active"); checkoutFormContainer.classList.remove("hidden"); orderSuccess.classList.add("hidden"); }
-    function closeModal() { checkoutModal.classList.remove("active"); document.body.style.overflow = ""; }
+    function openCart() {
+        cartDrawer.classList.add("active");
+        cartOverlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeCart() {
+        cartDrawer.classList.remove("active");
+        cartOverlay.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+
+    function openModal() {
+        closeCart();
+        checkoutModal.classList.add("active");
+        checkoutFormContainer.classList.remove("hidden");
+        orderSuccess.classList.add("hidden");
+    }
+
+    function closeModal() {
+        checkoutModal.classList.remove("active");
+        document.body.style.overflow = "";
+    }
 
     // 6. ОБРАБОТЧИКИ СОБЫТИЙ
     menuGrid.addEventListener("click", (e) => {
@@ -152,46 +170,58 @@ document.addEventListener("DOMContentLoaded", () => {
     closeSuccessBtn.addEventListener("click", () => { closeModal(); window.scrollTo({ top: 0, behavior: "smooth" }); });
     checkoutModal.addEventListener("click", (e) => { if (e.target === checkoutModal) closeModal(); });
 
-    // 7. ОТПРАВКА ЗАКАЗА В GOOGLE SHEETS
+    // 7. ОТПРАВКА ЗАКАЗА В GOOGLE SHEETS (ИСПРАВЛЕННАЯ ВЕРСИЯ)
     orderForm.addEventListener("submit", async (e) => {
         e.preventDefault();
+
         const formData = new FormData(orderForm);
+        const totalSum = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
         const orderData = {
-            name: formData.get("name"),
-            phone: formData.get("phone"),
+            name: formData.get("name").trim(),
+            phone: formData.get("phone").trim(),
             orderType: formData.get("orderType"),
-            comment: formData.get("comment"),
-            items: cart,
-            total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0)
+            comment: formData.get("comment").trim(),
+            items: cart.map(item => ({ name: item.name, qty: item.qty })),
+            total: totalSum
         };
+
+        console.log("📦 Отправляем заказ:", orderData);
 
         submitOrderBtn.disabled = true;
         submitOrderBtn.textContent = "Отправляем...";
 
         try {
-            // mode: 'no-cors' и text/plain критически важны для Google Apps Script
             await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                redirect: 'follow',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
                 body: JSON.stringify(orderData)
             });
 
+            // Очищаем корзину при успехе
             cart = [];
-            saveCart();
+            localStorage.removeItem("svetilei_cart");
+            updateCartUI();
             orderForm.reset();
+
+            // Показываем экран успеха
             checkoutFormContainer.classList.add("hidden");
             orderSuccess.classList.remove("hidden");
+
         } catch (error) {
-            console.error('Ошибка:', error);
-            alert("Не удалось отправить заказ. Пожалуйста, позвоните нам.");
+            console.error('❌ Ошибка:', error);
+            alert("Не удалось отправить заказ. Позвоните нам: +7 (999) 123-45-67");
         } finally {
             submitOrderBtn.disabled = false;
             submitOrderBtn.textContent = "Подтвердить заказ";
         }
     });
 
-    // Инициализация
+    // Инициализация при загрузке
     renderMenu("breakfast");
     updateCartUI();
 });
